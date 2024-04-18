@@ -1,0 +1,342 @@
+{% extends "layout/index.html" %} 
+{% load static %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/profilesettings.css' %}">
+<main class="padding">
+<section class="section">
+    <div class="profile_card">
+        <div class="card_head"> 
+            <div class="avatar_wrap">
+                <img class="avatar__img" src="{{request.user.profile.picture.url}}" width="150" height="150" alt="avatar image">
+            </div>
+            <div class="head_text">
+                <div class="head_title">{{request.user.first_name}} {{request.user.last_name}}</div>
+                <div class="head_type">{{request.user.profile.type}}</div>
+            </div>
+        </div>
+        <div class="card_body">
+
+            <div class="card_bio">
+                <form action="" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="bio_title">
+                        <div class="bio_buttons"> 
+                            <div>Photo de profile</div>
+                            <input type='file' name="picture" accept="image/*">
+                        </div>
+
+                        <button type="submit"><i class='bx bxs-save'></i> Sauvegarder</button>
+
+                    </div>
+                    <div class="bar"></div>
+                </form>
+            </div>
+            
+            <div class="card_bio">
+                <form action="" method="post">
+                {% csrf_token %}
+                    <div class="bio_title"><div>À propos</div><button type="submit"><i class='bx bxs-edit-alt'></i> Modifier</button></div>
+                    <div class="bar"></div>
+                    <div class="bio_content">
+                        <textarea name="bio" rows="3">{{request.user.profile.bio}}</textarea>
+                    </div>
+                </form>
+            </div>
+            {%if user.profile.type == "Etudiant" or user.profile.type == "Enseignant"%}
+            <div class="card_second">
+                <div class="card_skills">
+                    <div class="skills_title">Compétences</div>
+                    <div class="bar"></div>
+                    <div class="skills_content">
+                        <form action="" method="post">
+                        {% csrf_token %}
+                            <div class="skill_add">
+                                <div class="skill_inputs">
+                                    <input name="skill" type="text" placeholder="Compétences nom" class="input_in_skill">
+                                    <select name="skill_lvl" id="">
+                                        <option value="Débutant">Débutant</option>
+                                        <option value="intermédiaire">intermédiaire</option>
+                                        <option value="avancée">avancée</option>
+                                        <option value="expert">expert</option>
+                                    </select>
+                                </div>
+                                <button type="submit"><i class='bx bxs-message-square-add'></i>Ajouter</button>
+                            </div>
+                        </form>
+                        {%for skill in skills %}
+                        <form action="" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="selected_skill" value="{{skill.id}}">
+                        <div class="skill_div">
+                            <div class="skill_data">
+                                <div>{{skill.nom}}</div>
+                                <div class="skill_lvl">{{skill.level}}</div>
+                            </div>
+                            <button type="submit"><i class='bx bxs-trash-alt'></i> Suprimmer</button>
+                        </div>
+                        </form>
+                        {%endfor%}
+                    </div>
+                </div>
+            </div>
+            <div class="card_second">
+                <div class="card_dep">
+                    <div class="skills_title">Formation</div>
+                    <div class="bar"></div>
+                    <div class="dep_content">
+                        <form action="" method="post">
+                        {% csrf_token %}
+                        <div class="dep_add">
+                            <div class="dep_nom_input">
+                                <input name="dep_nom" type="text" placeholder="Formation nom" class="input_in_dep" required>
+                                <button type="submit"><i class='bx bxs-message-square-add'></i>Ajouter</button>
+                            </div>
+                            <div class="dep_nom_input">
+                                <input name="dep_etab" type="text" placeholder="Formation etablissement" class="input_in_dep" required>
+                            </div>
+                            <div class="dep_date_input">
+                                <div class="dep_date">Année de début : </div>
+                                <input name="dep_debut" type="number" placeholder="Année" class="input_in_date" required>
+                            </div>
+                            <div class="dep_date_input">
+                                <div class="dep_date">Année de fin (ou prévue) : </div>
+                                <input name="dep_fin" type="number" placeholder="Année" class="input_in_date" required>
+                            </div>
+                            <div class="dep_date_input">
+                                <div class="dep_date">Mention : </div>
+                                <select name="mention" id="" class="dep_select">
+                                    <option value="Passable">Passable</option>
+                                    <option value="Assez-Bien">Assez-Bien</option>
+                                    <option value="Bien">Bien</option>
+                                    <option value="Trés-Bien">Trés-Bien</option>
+                                </select>
+                            </div>
+
+                        </div>
+                        </form>
+                        {%for dep in deps%}
+                        <form action="" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="selected_dep" value="{{dep.id}}">
+                        <div class="dep_div">
+                            <div class="dep_nom">
+                                <div>{{dep.nom}}</div>
+                                <button type="submit"><i class='bx bxs-trash-alt'></i> Suprimmer</button>
+                            </div>
+                            <div class="bar"></div>
+                            <div class="dep_etab">{{dep.etablissement}}</div>
+                            <div class="dep_more">
+                                <div>{{dep.mention}}</div>
+                                <div>{{dep.start}}-{{dep.end}}</div>
+                            </div>
+                        </div>
+                        </form>
+                        {%endfor%}
+                    </div>
+                </div>
+            </div>
+            <div class="card_second">
+                <div class="card_project">
+                    <div class="skills_title">Projets</div>
+                    <div class="bar"></div>
+                    <div class="dep_content">
+                        <form action="" method="post">
+                        {% csrf_token %}
+                        <div class="dep_add">
+                            <div class="dep_nom_input">
+                                <input name="projet_titre" type="text" placeholder="Projet titre" class="input_in_dep" required>
+                                <button type="submit"><i class='bx bxs-message-square-add'></i>Ajouter</button>
+                            </div>
+                            <div class="dep_nom_input">
+                                <input name="projet_desc" type="text" placeholder="Projet description" class="input_in_dep" required>
+                            </div>
+                            <div class="dep_date_input">
+                                <div class="dep_date">Année de projet : </div>
+                                <input name="projet_annee" type="number" placeholder="Année" class="input_in_date" required>
+                            </div>
+                            <div class="dep_date_input">
+                                <div class="dep_date">Mois de projet : </div>
+                                <select name="projet_month" id="" class="dep_select">
+                                    <option selected value='Jan'>Jan</option>
+                                    <option value='Fév'>Fév</option>
+                                    <option value='Mar'>Mar</option>
+                                    <option value='Avr'>Avr</option>
+                                    <option value='Mai'>Mai</option>
+                                    <option value='Jui'>Jui</option>
+                                    <option value='Juil'>Juil</option>
+                                    <option value='Aou'>Aou</option>
+                                    <option value='Sep'>Sep</option>
+                                    <option value='Oct'>Oct</option>
+                                    <option value='Nov'>Nov</option>
+                                    <option value='Dec'>Dec</option>
+                                </select>
+
+                            </div>
+
+                        </div>
+                        </form>
+                        {%for project in projects%}
+                        <form action="" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="selected_projet" value="{{project.id}}">
+                        <div class="dep_div">
+                            <div class="dep_nom">
+                                <div>{{project.nom}}</div>
+                                <button type="submit"><i class='bx bxs-trash-alt'></i> Suprimmer</button>
+                            </div>
+                            <div class="bar"></div>
+                            <div class="dep_etab">{{project.description}}</div>
+                            <div class="dep_more">
+                                <div></div>
+                                <div>{{project.month}} {{project.date}}</div>
+                            </div>
+                        </div>
+                        </form>
+                        {%endfor%}
+                        
+                    </div>
+                </div>
+                
+            </div>
+            <div class="card_second">
+                <div class="card_skills">
+                    <div class="skills_title">Langues</div>
+                    <div class="bar"></div>
+                    <div class="skills_content">
+                        <form action="" method="post">
+                        {% csrf_token %}
+                            <div class="skill_add">
+                                <div class="skill_inputs">
+                                    <input name="langue" type="text" placeholder="Langue" class="input_in_skill">
+                                    <select name="langue_lvl" id="">
+                                        <option value="Débutant">Débutant</option>
+                                        <option value="intermédiaire">intermédiaire</option>
+                                        <option value="avancée">avancée</option>
+                                        <option value="expert">expert</option>
+                                    </select>
+                                </div>
+                                <button type="submit"><i class='bx bxs-message-square-add'></i>Ajouter</button>
+                            </div>
+                        </form>
+                        {%for langue in langues%}
+                        <form action="" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="selected_langue" value="{{langue.id}}">
+                        <div class="skill_div">
+                            <div class="skill_data">
+                                <div>{{langue.nom}}</div>
+                                <div class="skill_lvl">{{langue.level}}</div>
+                            </div>
+                            <button type="submit"><i class='bx bxs-trash-alt'></i> Suprimmer</button>
+                        </div>
+                        </form>
+                        {%endfor%}
+                    </div>
+                </div>
+            </div>
+
+            <div class="card_second">
+                <div class="card_dep">
+                    <div class="skills_title">Expérience</div>
+                    <div class="bar"></div>
+                    <div class="dep_content">
+                        <form action="" method="post">
+                        {% csrf_token %}
+                        <div class="dep_add">
+                            <div class="dep_nom_input">
+                                <input name="exp_nom" type="text" placeholder="Titre d'éxpérience" class="input_in_dep">
+                                <button type="submit"><i class='bx bxs-message-square-add'></i>Ajouter</button>
+                            </div>
+                            <div class="dep_nom_input">
+                                <input name="exp_etab" type="text" placeholder="Entreprise" class="input_in_dep">
+                            </div>
+                            <div class="dep_date_input">
+                                <div class="dep_date">Period en mois : </div>
+                                <input name="exp_period" type="number" placeholder="Mois" class="input_in_date">
+                            </div>
+                            <div class="dep_date_input">
+                                <div class="dep_date">Année de début : </div>
+                                <input name="exp_start" type="number" placeholder="Année" class="input_in_date">
+                            </div>
+
+                        </div>
+                        </form>
+                        {%for experience in experiences%}
+                        <form action="" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="selected_experience" value="{{experience.id}}">
+                        <div class="dep_div">
+                            <div class="dep_nom">
+                                <div>{{experience.nom}}</div>
+                                <button type="submit"><i class='bx bxs-trash-alt'></i>Modifier</button>
+                            </div>
+                            <div class="bar"></div>
+                            <div class="dep_etab">{{experience.etablissement}}</div>
+                            <div class="dep_more">
+                                <div>{{experience.period}} mois</div>
+                                <div>{{experience.start}}</div>
+                            </div>
+                        </div>
+                        </form>
+                        {%endfor%}
+                    </div>
+                </div>
+
+            </div>
+            {%endif%}
+            <div class="card_second">
+                <div class="card_address">
+                    <form action="" method="post">
+                    {% csrf_token %}
+                    <div class="skills_title">
+                        <div>Addresse</div>
+                        <button type="submit"><i class='bx bxs-edit-alt'></i> Modifier</button>
+                    </div>
+                    <div class="bar"></div>
+                    <div class="email_content">
+                        <input name="adresse" type="text" value="{{request.user.profile.adresse}}" class="input_in_bottom" placeholder="Addresse">
+                    </div>
+                    </form>
+                </div>
+            </div>
+            <div class="card_second">
+                <div class="card_num">
+                    <form action="" method="post">
+                    {% csrf_token %}
+                        <div class="skills_title">
+                            <div>Numéro de téléphone</div>
+                            <button type="submit"><i class='bx bxs-edit-alt'></i> Modifier</button>
+                        </div>
+                        <div class="bar"></div>
+                        <div class="email_content">
+                            <input name="number" type="text" value="{{request.user.profile.phonenumber}}" class="input_in_bottom" placeholder="number">
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="card_second">
+                <div class="card_num">
+                    <form action="" method="post">
+                    {% csrf_token %}
+                        <div class="skills_title">
+                            <div>Confidentialité</div>
+                            <button type="submit"><i class='bx bxs-edit-alt'></i> Modifier</button>
+                        </div>
+                        <div class="bar"></div>
+                        <div class="email_content">
+                            <select name="privacy">
+                                <option value="0">Publique</option>
+                                <option {%if request.user.profile.privacy%}selected{%endif%} value="1">Privé</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</section>
+
+</main>
+{% endblock %}

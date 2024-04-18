@@ -1,0 +1,142 @@
+#fst-im1{
+    float: left;
+}
+#fst-im2{
+    float: right;
+}
+.header-gen{
+    display: flex;
+	align-items: center;
+	justify-content: space-between;
+	grid-gap: 16px;
+	flex-wrap: wrap;
+    width: 100%;
+    padding: 0 2%;
+	color: var(--dark);
+}
+#fa{
+    width: 80px;
+	height: 80px;
+	border-radius: 10px;
+	font-size: 36px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+    background-color: var(--light-orange);
+    color: var(--orange);
+}
+#fst-pic{
+    width: 100%;
+}
+.title-home{
+    display: flex;
+	align-items: center;
+	grid-gap: 16px;
+	margin-bottom: 24px;
+    color: var(--dark);
+}
+.title-home h3{
+    font-size: 24px;
+}
+.info-container{
+    display: grid;
+	grid-gap: 24px;
+	margin-top: 24px;
+	width: 100%;
+    /*grid-template-columns: (60%-24px) 40%;*/
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
+	color: var(--dark);
+}
+.info-container>div{
+    border-radius: 20px;
+	background: var(--light);
+	padding: 24px;
+    overflow-x:auto;
+}
+/*.presentation{
+    grid-row-start: 1;
+    grid-row-end: 2;
+    grid-column-start: 1;
+    grid-column-end:1 ;
+}
+.mot-doyen{
+    grid-row-start: 1;
+    grid-row-end: 1;
+    grid-column: 2;
+}*/
+.mot-doyen{
+    font-size: x-large;
+}
+.presentation {
+    grid-row: span 3;
+  }
+.fst-map{
+    grid-row: span 2;
+}
+.fst-map iframe{
+    width: 100%;
+}
+.formation-initiale-container{
+    border-radius: 20px;
+    background-color: aliceblue;
+	background: var(--light);
+	padding: 24px;
+    margin-top: 24px;
+}
+.formation-initiale-list{
+    display: flex;
+    justify-content: space-around;
+}
+.formation-initiale{
+    border-radius: 20px;
+    background-color: aliceblue;
+	padding: 24px;
+    margin: 0 12px 0 12px;
+    width: 20%;
+    aspect-ratio: 10/9;
+    background-size: cover;
+}
+.formation-item{
+    width: 100%;
+    background-color: var(--light-dark);
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.formation-item-content{
+    text-align: center;
+    color: #F9F9F9;
+    font-size: x-large;
+    cursor: pointer;
+    transition: all 0.3s;
+    &:hover{
+        font-size: xx-large;
+    }
+}
+:root{
+    --light-dark:rgb(0,0,0,0.4)
+}
+.footer-gen{
+    margin-top: 24px;
+    display: flex;
+	align-items: center;
+	justify-content: space-between;
+	flex-wrap: wrap;
+    width: 100%;
+	color: var(--dark);
+}
+.contact{
+    width: 25%;
+    margin: 24px;
+    color: var(--dark);
+}
+.contact h3{
+    margin: 10px;
+}
+.contact-item{
+    color: var(--dark);
+    margin: 10px;
+    display: flex;
+}

@@ -1,0 +1,74 @@
+{%extends 'layout/index.html'%}
+{%load static%}
+{%block content%}
+<link rel="stylesheet" href="{% static 'css/classroompub.css' %}">
+<section>
+
+    <div class="container">
+        <div class="sect2">
+            <div class="pubinfo ">
+                <h1 class="info">{{pub.type}}</h1>
+                <h5 class="date ">{{pub.date_pub}}</h5>
+                <hr>
+                <p class="content">{{pub.content}}</p>
+                {%if pub.attachement%}
+                <div class="pubimg">
+                    <img src="{{pub.attachement.url}}" alt="{{pub.id}} img" id="pubimg" width="500px" height="300px">
+                </div>
+                
+                {%endif%}
+            </div>
+
+            <div class="content">
+                <button>   
+                    <a href="https://www.youtube.com/watch?v=csL0vOd7tWo&list=PLhsLYLmId5J5uCN50ZbVEF85DYaZcRJb3&index=12">FILE LInk</a>
+                </button>
+            </div>
+            <div class="comments">
+            <label for="" class="lbl">Comment</label>
+            <form action="" method="post" id="formm">
+                {%csrf_token%}
+                <textarea id="commentContent" placeholder="Write your comment here..." rows="4" cols="50" name="comment"> </textarea>
+                <button type="submit" class="comment-button"><i class="fa-solid fa-share"></i></button>
+            </form>
+            
+            </div>
+            <div class="commentsdisplay">
+                {%for comment in classcom%}
+                <div class="cmnt">
+                    <img src="{{comment.user.profile.picture.url}}" alt="">
+                    <h3> 
+                        {{comment.user.first_name}} {{comment.user.last_name}}
+                    </h3>
+                    <h5>
+                        {{comment.date}}
+                    </h5>
+                    <p>
+                        {{comment.content}}
+                    </p>
+                </div>
+                <hr>
+                {%endfor%}
+        </div>
+        
+    </div>
+    {%if request.user.profile.type == "Etudiant"%}
+    <div class="sect1">
+            <div class="devoir-info">
+                <h1>Votre devoir</h1>
+                <h5>etat</h5>
+            </div>
+            <hr>
+            <div >   
+                {%csrf_token%}  
+                <form action="" class="formdevoir">
+                    <input type="file" />
+                    <button type="submit" id="btnsend">Marquer comme terminé</button>
+                </form>           
+                
+            </div>
+        </div>
+    {%endif%}
+</section>
+
+{%endblock%}

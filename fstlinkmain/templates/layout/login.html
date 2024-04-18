@@ -1,0 +1,37 @@
+{% extends "layout/index.html" %}
+{% load static %}
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'css/singup.css' %}">
+<div class="container padding log">
+    <div class="title">Se connecter</div>
+    <div class="contenta">
+      <form action="" class="logi" method="post">
+        {% csrf_token %}
+        <div class="user-details">
+        
+          
+          
+          <div class="input-box log">
+            <span class="details">Nom d'utilisateur</span>
+            <input type="text" placeholder="Entez votre nom d'utilisateur" required id="username" name="username" value="{{n}}">
+          </div>
+      
+          
+          <div class="input-box log">
+            <span class="details">Mot de pass</span>
+            <input type="password" placeholder="Entrez votre mot de pass" id="password" name="password"  required>
+          </div>
+          
+        </div>
+        <p class="marg">Vous n’avez pas encore de compte ?<a href="{% url 'register' %}"> s'inscrire.</a></p>
+            
+        <div class="button">
+          <input type="submit" value="Login">
+        </div>
+      </form>
+    </div>
+  </div>
+  <script src="{% static 'js/script.js' %}"></script>
+{% endblock %}
+

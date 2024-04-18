@@ -1,0 +1,125 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<!-- Boxicons -->
+	<link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+	<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+	<link href='//cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css' rel='stylesheet'>
+	<!-- My CSS -->
+	<link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+	<title>FSTLINK</title>
+</head>
+<body>
+    <section id="sidebar" class="hide">
+    <a href="/" class="brand">
+        <i class='bx bxs-school'></i>
+        <span class="text">FSTLINK</span>
+    </a>
+    <ul class="side-menu top">
+        
+        {%if request.user.is_authenticated%}
+        <li {%if request.path == "/dashboard/home" %}class="active"{%endif%}>
+            <a href="/dashboard/home">
+                <i class='bx bxs-home' ></i>
+                <span class="text">Acceuil</span>
+            </a>
+        </li>
+        <li {%if request.path == "/dashboard/" %}class="active"{%endif%} >
+            <a href="/dashboard">
+                <i class='bx bxs-dashboard' ></i>
+                <span class="text">Tableau de bord</span>
+            </a>
+        </li>
+        {%if request.user.profile.type == "Etudiant" or request.user.profile.type == "Enseignant" %}
+        <li {%if request.path == "/classrooms/" %}class="active"{%endif%}>
+            <a href="{%url 'classrooms'%}">
+                <i class='bx bxs-book'></i>
+                <span class="text">Mes classes</span>
+            </a>
+        </li>
+        {%endif%}
+        <li {%if request.path == "/profile/" %}class="active"{%endif%}>
+            <a href="/profile">
+                <i class='bx bxs-user'></i>
+                <span class="text">Profil</span>
+            </a>
+        </li>
+        <li {%if request.path == "/chat/" %}class="active"{%endif%}>
+            <a href="/chat">
+                <i class='bx bxs-message-dots' ></i>
+                <span class="text">Discussion</span>
+            </a>
+        </li>
+        <li {%if request.path == "/profilesettings/" %}class="active"{%endif%}>
+            <a href="/profilesettings">
+                <i class='bx bxs-cog' ></i>
+                <span class="text">Paramètres</span>
+            </a>
+        </li>
+        <li>
+            <a href="/logout" class="logout">
+                <i class='bx bxs-exit bx-rotate-180' ></i>
+                <span class="text">Se déconnecter</span>
+            </a>
+        </li>
+        {%else%}
+        <li {%if request.path == "/" %}class="active"{%endif%}>
+            <a href="/">
+                <i class='bx bxs-home' ></i>
+                <span class="text">Acceuil</span>
+            </a>
+        </li>
+        <li {%if request.path == "/login/" %}class="active"{%endif%}>
+            <a href="/login">
+                <i class='bx bxs-exit'></i>
+                <span class="text">Se connecter</span>
+            </a>
+        </li>
+        <li {%if request.path == "/register/" %}class="active"{%endif%}>
+            <a href="/register">
+                <i class='bx bxs-user-plus'></i>
+                <span class="text">S'inscrire</span>
+            </a>
+        </li>
+        {%endif%}
+    </ul>
+</section>
+<!-- SIDEBAR -->
+<!-- CONTENT -->
+<section id="content">
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <i class='bx bx-menu' ></i>
+        
+        <form action="/profile_search" method="post">
+            {% csrf_token %}
+            <div class="form-input">
+                <input name="search" type="search" placeholder="Rechercher...">
+                <button type="submit" class="search-btn"><i class='bx bx-search' ></i></button>
+            </div>
+        </form>
+        
+        <input type="checkbox" id="switch-mode" hidden>
+        <label for="switch-mode" class="switch-mode"></label>
+        {%if request.user.is_authenticated%}
+        <a href="/profile" class="profile">
+            <img src="{{request.user.profile.picture.url}}">
+        </a>
+        {%endif%}
+    </nav>
+    <!-- NAVBAR -->
+    <!-- CONTENT -->
+        {% block content %}
+        
+        {% endblock %}
+    <!-- CONTENT -->
+	
+
+	<!-- SCRIPT -->
+	<script src="{% static 'js/script.js' %}"></script>
+</body>
+</html>

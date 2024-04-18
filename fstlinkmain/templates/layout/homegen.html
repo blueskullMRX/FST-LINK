@@ -1,0 +1,124 @@
+{% extends "layout/index.html" %}
+{% load static%}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/homegen.css' %}">
+
+<main class="padding">
+    <div class="header-gen">
+        <img src="{% static 'img/fst.png' %}" alt="can't load" width="200" id="fst-im1">
+        <img src="{% static 'img/fst2.png' %}" alt="can't load" width="200" id="fst-im2">
+    </div>
+    <ul class="box-info">
+        <li>
+            <i class='bx bxs-calendar-check' ></i>
+            <span class="text">
+                <h3>{{users.count}}</h3>
+                <p>Users</p>
+            </span>
+        </li>
+        <li>
+            <i class='bx bxs-graduation'></i>
+            <span class="text">
+                <h3>{{etudiants.count}}</h3>
+                <p>Students</p>
+            </span>
+        </li>
+        <li>
+            <i class="fa-solid fa-chalkboard-user" id="fa"></i>
+            <span class="text">
+                <h3>{{professeurs.count}}</h3>
+                <p>Professeurs</p>
+            </span>
+        </li>
+    </ul>
+    <div class="info-container">
+        <div class="presentation" >
+            <div class="title-home">
+                <i class="fa-solid fa-school"></i>
+                <h3>LA FACULTÉ</h3>
+            </div>
+            <img src="https://fstt.ac.ma/Portail2023/wp-content/uploads/2023/03/337344484_241759151573271_6868499689807891355_n-1024x683.jpg" alt="can't load" style="width: 100%;">
+            <p>La Faculté des Sciences et Techniques de Tanger (FSTT), relevant de l’Université Abdelmalek Essaâdi a été créée en 1995. Elle fait partie des établissements de l’enseignement supérieur à accès régulé et a pour missions la formation initiale dans les domaines scientifiques et techniques, la formation continue ainsi que la recherche et le développement dans les domaines des sciences et techniques.</p>
+        </div>
+        <div class="mot-doyen" >
+            <div class="title-home">
+                <i class='bx bx-message-rounded-dots'></i>
+                <h3>Mot du doyen</h3>
+            </div>
+            <img src="https://fstt.ac.ma/Portail2023/wp-content/uploads/2023/05/WhatsApp-Image-2023-05-11-at-10.33.36-AM.jpeg" alt="can't load" style="width: 20%;border-radius: 20px;float: right;margin: 0 15px 0 0;">
+            <p>Ensemble, cultivons l'excellence scientifique de demain avec passion et détermination</p>
+            
+        </div>
+        <div class="fst-map" >
+            <div class="title-home">
+                <i class='bx bx-current-location' ></i>
+                <h3>Notre localisation</h3>
+            </div>
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15104.088564521779!2d-5.883406153256524!3d35.739397491855755!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd0b87d71f995045%3A0xc35a87c33b565280!2sFacult%C3%A9%20des%20sciences%20et%20techniques%20de%20Tanger!5e0!3m2!1sfr!2sma!4v1711548807939!5m2!1sfr!2sma" width="600" height="400" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+    </div>
+    <div class="formation-initiale-container">
+        <div class="title-home">
+            <i class='bx bx-current-location' ></i>
+            <h3>Formations initiales</h3>
+        </div>
+        <div class="formation-initiale-list">
+            <div class="formation-initiale" style="background-image: url('/static/img/DEUST_img.png');">
+                <div class="formation-item">
+                    <a href="" class="formation-item-content">
+                        <i class='bx bx-file'></i>
+                        <h3>DEUST</h3>
+                    </a>
+                </div>
+            </div>
+            <div class="formation-initiale" style="background-image: url('/static/img/License_img.png');">
+                <div class="formation-item">
+                    <a href="" class="formation-item-content">
+                        <i class='bx bx-note'></i>
+                        <h3>Licence</h3>
+                    </a>
+                </div>
+            </div>
+            <div class="formation-initiale" style="background-image: url('/static/img/Master_img.png');">
+                <div class="formation-item">
+                    <a href="" class="formation-item-content">
+                        <i class='bx bxs-graduation' ></i>
+                        <h3>Master</h3>
+                    </a>
+                </div>
+            </div>
+            <div class="formation-initiale" style="background-image: url('/static/img/Ingenieur_img.png');">
+                <div class="formation-item">
+                    <a href="" class="formation-item-content">
+                        <i class="fa-solid fa-user-graduate"></i>
+                        <h3>Ingénieur d'État</h3>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer-gen">
+        <div class="contact">
+            <img src="{% static 'img/fst.png' %}" alt="can't load" width="200" id="fst-im1">
+        </div>
+        <div class="contact">
+            <h3>Contacter nous</h3>
+            <a href="https://instagram.com/fsttanger?igshid=Mzc1MmZhNjY=" class="contact-item">
+                <i class='bx bxl-instagram' ></i>
+                <h5>fsttanger</h5>
+            </a>
+            <a href="https://www.facebook.com/fstt.ac.ma?mibextid=LQQJ4d" class="contact-item">
+                <i class='bx bxl-facebook-square' ></i>
+                <h5>FST Tanger</h5>
+            </a>
+            <a href="https://www.linkedin.com/school/fsttanger/" class="contact-item">
+                <i class='bx bxl-linkedin-square' ></i>
+                <h5>fsttanger</h5>
+            </a>
+        </div>
+        <div class="contact">
+            <img src="{% static 'img/fst2.png' %}" alt="can't load" width="200" id="fst-im1">
+        </div>
+    </div>
+</main>
+{%endblock%}

@@ -1,0 +1,97 @@
+{% extends "layout/index.html" %} 
+{% load static %}
+{% block content %}
+<!-- MAIN -->
+<link rel="stylesheet" href="{% static 'css/chat.css' %}">
+
+
+<section class="section">
+    <div class="modal">
+        <div class="modal__dialog">
+          <div class="modal__content chat">
+            <div class="modal__sidebar">
+              <div class="chat__users">
+                <ul class="users">
+                  {%for chatroom in chatrooms%}
+                  <li class="users__item {%if selected == chatroom%}users__item_group{%endif%}">
+                    <div class="users__avatar avatar">
+                      <a href="{%url 'chat' chatroom_id=chatroom.id%}" class="avatar__wrap">
+                        <img class="avatar__img" src="{%if chatroom.user1 == request.user%}{{chatroom.user2.profile.picture.url}}{%else%}{{chatroom.user1.profile.picture.url}}{%endif%}" width="35" height="35" alt="avatar image">
+                      </a>
+                    </div>
+                    <a href="{%url 'chat' chatroom_id=chatroom.id%}">
+                    <span class="users__note">{%if chatroom.user1 == request.user%}{{chatroom.user2.first_name}} {{chatroom.user2.last_name}}{%else%}{{chatroom.user1.first_name}} {{chatroom.user1.last_name}}{%endif%}</span>
+                    </a>
+                    {%if chatroom.counter != 0%}
+                    <div class="users__counter">
+                      <span class="counter">{%if chatroom.counter > 9%}+9{%else%}{{chatroom.counter}}{%endif%}</span>
+                    </div>
+                    {%endif%}
+                  </li>
+                  {%endfor%}
+
+
+
+                </ul>
+              </div>
+            </div>
+            <div class="modal__main">
+              <div class="chatbox">
+                <div class="chatbox__row">
+                  <div class="head">
+                    <div class="head__avatar avatar avatar_larger">
+                      <a href="/profile/{%if selected.user1 == request.user%}{{selected.user2.username}}{%else%}{{selected.user1.username}}{%endif%}" class="avatar__wrap">
+                        <img class="avatar__img" src="{%if selected.user1 == request.user%}{{selected.user2.profile.picture.url}}{%else%}{{selected.user1.profile.picture.url}}{%endif%}" width="35" height="35" alt="avatar image">
+                      </a>
+                    </div>
+                    <div class="head__title">{%if selected.user1 == request.user%}{{selected.user2.first_name}} {{selected.user2.last_name}}{%else%}{{selected.user1.first_name}} {{selected.user1.last_name}}{%endif%}</div>
+                  </div>
+                </div>
+                <div id="scroll" class="chatbox__row chatbox__row_fullheight">
+                  <div class="chatbox__content">
+
+                    {%for message in messages%}
+                    <div class="message {%if message.sender == request.user%}my_message{%else%}recived_message{%endif%}">
+                      <div class="message__head">
+                        <span class="message__note">{{message.sender.first_name}}</span>
+                        <span class="message__note">{{message.date}}</span>
+                      </div>
+                      <div class="message__base">
+                        <div class="message__textbox">
+                          <span class="message__text">{{message.content}}</span>
+                        </div>
+                      </div>
+                    </div>
+                    {%endfor%}
+
+                  </div>
+                </div>
+                <div class="chatbox__row">
+                  <div class="enter">
+                    <form action="" method="post">
+                    {% csrf_token %}
+                        <div class="message_input">
+                            <input name="message" class="input_message_box" type="text" placeholder="message..." autocomplete="off">
+                            <button type="submit" class="submit_button"><i class='bx bxs-comment-dots'></i></button>
+                        </div>
+                    </form>
+                  </div>
+                </div>
+                
+
+
+
+
+      
+      
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+</section>
+<script>
+  var objDiv = document.getElementById("scroll");
+  objDiv.scrollTop = objDiv.scrollHeight;
+</script>
+{% endblock %}

@@ -1,0 +1,181 @@
+{% extends "layout/index.html" %} 
+{% load static %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/profile.css' %}">
+
+<main class="padding">
+
+
+<section class="section">
+    <div class="profile_card">
+        <div class="card_head"> 
+            <div class="avatar_wrap">
+                <img class="avatar__img" src="{{user.profile.picture.url}}" width="150" height="150" alt="avatar image">
+            </div>
+            <div class="head_text">
+                <div class="big_title">
+                    <div class="head_title">{{user.first_name}} {{user.last_name}} </div>
+                    {%if user != request.user and request.user.is_authenticated%}
+                    <form action="" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="is_followed" value={{is_followed}}>
+                        <input type="hidden" name="followed" value="{{user.id}}">
+                        <input type="hidden" name="follower" value="{{request.user.id}}">
+                        {%if is_followed%}
+                        <button class="profile_button" type="submit"><i class="fa fa-user-minus"></i></button>
+                        {%else%}
+                        <button class="profile_button" type="submit"><i class="fa fa-user-plus"></i></button>
+                        {%endif%}
+                    </form>
+                    {%endif%}
+                </div>
+                <div class="head_type">{{user.profile.type}}
+                    
+                </div>
+                
+            </div>
+        </div>
+        <div class="card_body">
+            <div class="card_bio">
+                <div class="bio_title">À propos</div>
+                <div class="bar"></div>
+                <div class="bio_content">
+                    {{user.profile.bio}}
+                </div>
+            </div>
+            
+            {%if user.profile.type == "Etudiant" or user.profile.type == "Enseignant"%}
+            <div class="card_second">
+
+                <div class="card_skills">
+                    <div class="skills_title">Compétences</div>
+                    <div class="bar"></div>
+                    <div class="skills_content">
+                        {%for skill in skills %}
+                        <div class="skill_div"><div>{{skill.nom}}</div><div class="skill_lvl">{{skill.level}}</div></div>
+                        {%endfor%}
+                    </div>
+                </div>
+
+                <div class="card_dep">
+                    <div class="skills_title">Formation</div>
+                    <div class="bar"></div>
+                    <div class="dep_content">
+                        {%for dep in deps%}
+                        <div class="dep_div">
+                            <div class="dep_nom">{{dep.nom}}</div>
+                            <div class="bar"></div>
+                            <div class="dep_etab">{{dep.etablissement}}</div>
+                            <div class="dep_more">
+                                <div>{{dep.mention}}</div>
+                                <div>{{dep.start}}-{{dep.end}}</div>
+                            </div>
+                        </div>
+                        {%endfor%}
+                    </div>
+                </div>
+
+            </div>
+            <div class="card_second">
+                <div class="card_project">
+                    <div class="skills_title">Projets</div>
+                    <div class="bar"></div>
+                    <div class="dep_content">
+                        {%for project in projects%}
+                        <div class="dep_div">
+                            <div class="dep_nom">{{project.nom}}</div>
+                            <div class="bar"></div>
+                            <div class="dep_etab">{{project.description}}</div>
+                            <div class="dep_more">
+                                <div></div>
+                                <div>{{project.date}}</div>
+                            </div>
+                        </div>
+                        {%endfor%}
+                        
+                    </div>
+                </div>
+                
+                <div class="card_lang">
+                    <div class="skills_title">Langues</div>
+                    <div class="bar"></div>
+                    <div class="skills_content">
+                        {%for langue in langues%}
+                        <div class="skill_div"><div>{{langue.nom}}</div><div class="skill_lvl">{{langue.level}}</div></div>
+                        {%endfor%}
+                    </div>
+                </div>
+
+            </div>
+            <div class="card_second">
+                <div class="column_div">
+                    <div class="card_email">
+                        <div class="skills_title">Email</div>
+                        <div class="bar"></div>
+                        <div class="email_content">
+                            {{user.email}}
+                        </div>
+                    </div>
+                    
+                    <div class="card_email">
+                        <div class="skills_title">Date de naissance</div>
+                        <div class="bar"></div>
+                        <div class="email_content">
+                            {{user.profile.birth_date}}
+                        </div>
+                    </div>
+                </div>
+                <div class="card_exp">
+                    <div class="skills_title">Expérience</div>
+                    <div class="bar"></div>
+                    <div class="dep_content">
+                        {%for experience in experiences%}
+                        <div class="dep_div">
+                            <div class="dep_nom">{{experience.nom}}</div>
+                            <div class="bar"></div>
+                            <div class="dep_etab">{{experience.etablissement}}</div>
+                            <div class="dep_more">
+                                <div>{{experience.period}} mois</div>
+                                <div>{{experience.start}}</div>
+                            </div>
+                        </div>
+                        {%endfor%}
+                    </div>
+                </div>
+
+            </div>
+            {%endif%}
+            {%if not user.profile.type == "Etudiant" and not user.profile.type == "Enseignant"%}
+            <div class="card_bio">
+                <div class="bio_title">Email</div>
+                <div class="bar"></div>
+                <div class="bio_content">
+                    {{user.email}}
+                </div>
+            </div>
+            {%endif%}
+            <div class="card_second">
+                <div class="card_address">
+                    <div class="skills_title">Addresse</div>
+                    <div class="bar"></div>
+                    <div class="email_content">
+                        {{user.profile.adresse}}
+                    </div>
+                </div>
+                <div class="card_num">
+                    <div class="skills_title">Numéro de téléphone</div>
+                    <div class="bar"></div>
+                    <div class="email_content">
+                        {{user.profile.phonenumber}}
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+
+    </div>
+
+</section>
+</main>
+
+{% endblock %}

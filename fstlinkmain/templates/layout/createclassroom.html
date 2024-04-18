@@ -1,0 +1,19 @@
+{%extends 'layout/index.html'%}
+
+{%load static%}
+
+{%block content%}
+<link rel="stylesheet" href="{% static 'css/createclassroom.css' %}">
+<section class="container">
+    <div class="formcontainer" >
+        <h1>Create Classroom</h1>
+        <form action="" method="POST" id="form">
+            {% csrf_token %}
+            <input type="text" name="title" placeholder="Title" required>
+            <textarea name="description" placeholder="Description" id="textarea"></textarea>
+            <button type="submit">Create</button>
+        </form>
+    </div>
+</section>
+
+{%endblock%}

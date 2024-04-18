@@ -1,0 +1,45 @@
+{%extends 'layout/index.html'%}
+{%load static%}
+{%block content%}
+<link rel="stylesheet" href="{% static 'css/ajouteretudiant.css' %}">
+
+<div class="container">
+    <div class="formdiv">
+        <form method="post" action="{% url 'ajouter_etudiant' classroom_id=classroom_id %}">
+        {% csrf_token %}
+        <input type="text" name="cne" placeholder="Enter student CNE" class="inpt" required>
+        <button type="submit" class="btn">Ajouter</button>
+        </form>
+    </div>
+    
+
+</div>
+<div class="studentlist">
+    <h1>Students List</h1>
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>CNE</th>
+        </tr>
+        {%for student in classroomstd%}
+        <tr>
+            <td>{{student.user.first_name}} {{student.user.last_name}}</td>
+            <td>{{student.CNE}}</td>
+        </tr>
+        {%endfor%}
+    </table>
+</div>
+<div class="studentlist">
+    <h1>Existing Students</h1>
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>CNE</th>
+        </tr>
+    {%for x in thisclassstd%}
+    <tr><td>{{x.etudiant.user.first_name}} {{x.etudiant.user.last_name}}</td>
+    <td>{{x.etudiant.CNE}}</td></tr>
+    
+    {%endfor%}
+</div>
+{%endblock%}

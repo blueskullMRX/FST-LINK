@@ -1,0 +1,79 @@
+{%extends 'layout/index.html'%}
+
+{%load static%}
+
+{%block content%}
+
+<link rel="stylesheet" href="{% static 'css/classroom.css' %}">
+<section class="container">
+    {%if request.user.profile.type == "Enseignant"%}
+    <div class="classroom_info">
+        <h2 class="info">{{classroom.title}}</h2>
+        <p class="info">{{classroom.description}}</p>
+        <h2 class="right info">{{classroom.enseignant.user.first_name}} {{classroom.enseignant.user.last_name}}</h2>
+        <button id="ajouterbtn" >
+            <a href="/ajouter_etudiant/{{classroom.id}}">ajouter etudiant</a>
+        </button>
+    </div>
+    <div class="post posting">
+        <div class="post-header">
+            <img src="{{request.user.profile.picture.url}}" alt="Profile Picture" class="profile-picture">
+            <div class="post-info">
+                <h2 class="post-author">{{classroom.enseignant.user.first_name}} {{classroom.enseignant.user.last_name}}</h2>
+            </div>
+        </div>
+        <form id="postForm" method="POST" action="" enctype="multipart/form-data">
+            {%csrf_token%}
+            <textarea id="postContent" placeholder="Write your post here..." rows="4" cols="50" name="post_content" ></textarea>
+                <div class="button-container">
+                <input type="file" id="attachInput" name="post_media"  class="round-button">
+                <button type="submit" id="shareButton" class="share-button">Share <i class="fa-solid fa-share"></i></button>
+            </div>       
+        </form>
+    </div>
+    {%endif%}
+    {%if request.user.profile.type == "Etudiant"%}
+    <div class="classroom_info">
+        <h2 class="info">{{classroom.classroom.title}}</h2>
+        <p class="info">{{classroom.classroom.description}}</p>
+        <h2 class="right info">{{classroom.classroom.enseignant.user.first_name}} {{classroom.classroom.enseignant.user.last_name}}</h2>
+    </div>
+    {%endif%}
+    {%for pub in classroompubs%}
+    <a href="{% url 'classroompub' pub_id=pub.id %}" class="postclickable">
+        
+        <div class="classroompub">
+            <div class="pub">
+                <div class="pub_head">
+                    <img src="{{pub.classroom.enseignant.user.profile.picture.url}}" alt="Profile Picture" class="profile-picture">
+                    <div>
+                        {%if request.user.profile.type == "Enseignant"%}
+                        <form action="{% url 'delete_class_publication' pub.id %}" method="POST" >
+                            {% csrf_token %}
+                            <button type="submit" id="deleteclasspub" >
+                                <i class="fa-solid fa-trash"></i>
+                            </button>
+                        </form>
+                        {%endif%}
+                    </div>
+                    
+                    <div class="pub-info">
+                        <h3 class="info">{{pub.type}}</h3>
+                        <h5 class="pub-date ">{{pub.date_pub}}</h5>
+                    </div>
+                </div>
+                <div class="pub-content">
+                    <p class="info">{{pub.content}}</p>
+                    <div class="pubattch">
+                        {%if pub.attachement%}
+                        <img src="{{pub.attachement.url}}" alt="" width="300">
+                        {%endif%}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </a>
+    {%endfor%}
+    
+</section>
+{%endblock%}    

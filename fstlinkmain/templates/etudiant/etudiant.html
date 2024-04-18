@@ -1,0 +1,146 @@
+{%extends 'layout/index.html'%}
+{%load static%}
+{%block content%}
+
+
+		<!-- MAIN -->
+		<main class="padding">
+			<div class="head-title">
+				<div class="left">
+					<h1>Dashboard</h1>
+					<ul class="breadcrumb">
+						<li>
+							<a href="#">Home</a>
+						</li>
+						<li>
+							<i class='bx bx-chevron-right' ></i>
+						</li>
+						<li>
+							<a href="#">Dashboard</a>
+						</li>
+						
+					</ul>
+				</div>
+				<!-- <a href="#" class="btn-download">
+					<i class='bx bxs-cloud-download' ></i>
+					<span class="text">Download PDF</span>
+				</a> -->
+			</div>
+
+			<ul class="box-info">
+				<li>
+					<i class='bx bxs-calendar-check' ></i>
+					<span class="text">
+						<h3>{{etudiants.count}}</h3>
+						<p>étudiants</p>
+					</span>
+				</li>
+				<li>
+					<i class='bx bxs-group' ></i>
+					<span class="text">
+						<h3>{{users.count}}</h3>
+						<p>Users</p>
+					</span>
+				</li>
+				{%if request.user.profile.type == "Entreprise"%}
+				<li>
+					<i class='bx bxs-business'></i>
+					<span class="text">
+						<h3>{{entreprises.count}}</h3>
+						<p>Entreprises</p>
+					</span>
+				</li>
+				{%else%}
+				<li>
+					<i class='bx bxs-book' ></i>
+					<span class="text">
+						<h3>{{classrooms.count}}</h3>
+						<p>Classes</p>
+					</span>
+				</li>
+				{%endif%}
+
+			</ul>
+
+
+			<div class="table-data">
+				<div class="order">
+					<div class="head">
+						<h3>Recent Messages</h3>
+						<i class="fa-sharp fa-solid fa-comment-dots"></i>
+					</div>
+					<table>
+						<thead>
+							<tr>
+								<th>Sent by</th>
+								<th>Messages</th>
+							</tr>
+						</thead>
+						<tbody>
+							{%if not chatrooms.count == 0 %}
+							{%for chatroom in chatrooms%}
+							<tr>
+								<td>
+									<a href="{%url 'chat' chatroom_id=chatroom.id%}">
+									<img src="{%if chatroom.user1 == request.user%}{{chatroom.user2.profile.picture.url}}{%else%}{{chatroom.user1.profile.picture.url}}{%endif%}">
+									</a>
+									<a href="{%url 'chat' chatroom_id=chatroom.id%}">
+									<p>{%if chatroom.user1 == request.user%}{{chatroom.user2.first_name}} {{chatroom.user2.last_name}}{%else%}{{chatroom.user1.first_name}} {{chatroom.user1.last_name}}{%endif%}</p>
+									</a>
+								</td>
+								<td><span class="status completed">{%if chatroom.counter > 9%}+9{%else%}{{chatroom.counter}}{%endif%}</span></td>
+							</tr>
+							{%endfor%}
+							{%else%}
+							<tr>
+								<td>
+									Aucun message...
+								</td>
+								<td></td>
+							</tr>
+							{%endif%}
+								
+						</tbody>
+					</table>
+				</div>
+				{%if request.user.profile.type == "Etudiant"%}
+				<div class="todo">
+					<div class="head">
+						<h3>Classes</h3>
+					</div>
+					<ul class="todo-list">
+						{%if not classrooms.count == 0%}
+						{%for classe in classrooms%}
+						<li class="completed">
+							<p>{{classe.classroom.title}}</p>
+							<a href="{%url 'classroom' class_id=classe.classroom.id%}"><i class='bx bx-dots-vertical-rounded' ></i></a>
+						</li>
+						{%endfor%}
+						{%else%}
+						<li class="completed">
+							<p>Aucun classe...</p>
+						</li>
+						{%endif%}
+					</ul>
+				</div>
+				{%elif request.user.profile.type == "Enseignant"%}
+				<div class="todo">
+					<div class="head">
+						<h3>Classes</h3>
+					</div>
+					<ul class="todo-list">
+						{%for classe in classrooms%}
+						<li class="completed">
+							<p>{{classe.title}}</p>
+							<a href="{%url 'classroom' class_id=classe.id%}"><i class='bx bx-dots-vertical-rounded' ></i></a>
+						</li>
+						{%endfor%}
+					</ul>
+				</div>
+				{%endif%}
+			</div>
+		</main>
+		<!-- MAIN -->
+	</section>
+	<!-- CONTENT -->
+{%endblock%}

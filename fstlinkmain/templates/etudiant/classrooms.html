@@ -1,0 +1,64 @@
+{%extends 'layout/index.html'%}
+
+{%load static%}
+{%block content%}
+<link rel="stylesheet" href="{% static 'css/classrooms.css' %}">
+<section class="classroomsGrid">
+    {%if not classrooms.count == 0 %}
+    {%for class in classrooms%}
+    <div class="classroom" >
+        {%if request.user.profile.type == "Etudiant"%}
+        <div class="classroominfo">
+            <img src="{{class.classroom.enseignant.user.profile.picture.url}}" alt="classroomimg">
+            <h1>{{class.classroom.title}}</h1>
+            <p>{{class.classroom.description}}</p>
+            <h3>{{class.classroom.enseignant.user.first_name}} {{class.classroom.enseignant.user.last_name}}</h3>
+        </div>
+        <div class="classroomactions">
+            <button>
+                
+                <a href="/classroom/{{class.classroom.id}}">Open</a>
+            </button>
+        </div>
+        {%endif%}
+        {%if request.user.profile.type == "Enseignant"%}
+        <div class="classroominfo">
+            <img src="{{request.user.profile.picture.url}}" alt="classroomimg">
+            <h1>{{class.title}}</h1>
+            <p>{{class.description}}</p>
+        </div>
+        <div class="classroomactions">
+            <button>
+                <a href="/classroom/{{class.id}}">Open</a>
+            </button>
+            <form action="{% url 'delete_classroom' class.id %}" method="POST">
+                {% csrf_token %}
+                <button type="submit" class="delete-button">
+                    <i class="fa-solid fa-trash"></i>
+                </button>
+            </form>
+        </div>
+        {%endif%}
+    </div>
+    {%endfor%}
+    {%elif request.user.profile.type != "Enseignant"%}
+    <div class="classroom" >
+        <div class="classroominfo">
+            <h1>Aucune classroom...</h1>
+        </div>
+        <div class="classroomactions">
+        </div>
+    </div>
+    {%endif%}
+    {%if request.user.profile.type == "Enseignant"%}
+    <div class=" addclassroom" >
+    <div>
+        <a href="/create_classroom" class="create-classroom">
+            <i class="fa-solid fa-plus"></i>
+        </a>
+    </div>
+        
+    </div>
+    {%endif%}
+</section>
+{%endblock%}

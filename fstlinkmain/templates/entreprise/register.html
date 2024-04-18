@@ -1,0 +1,52 @@
+{% extends "layout/index.html" %}
+{% load static %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/singup.css' %}">
+<div class="container padding">
+    <div class="title">S'inscrire</div>
+    <div class="contents">
+      <form action="" method="post">
+        {% csrf_token %}
+        <div class="user-details">
+          <div class="input-box Company">
+            <span class="details">Nom d'entreprise</span>
+            <input name="first_name" type="text" placeholder="Nom d'entreprise" required>
+          </div>
+          <div class="input-box">
+            
+          </div>
+          <div class="input-box">
+            <span class="details">Nom d'utilisateur (sans espaces)</span>
+            <input name="username" type="text" placeholder="Nom d'utilisateur" required>
+          </div>
+          <div class="input-box">
+            <span class="details">Spécialité</span>
+            <input name="domaine" type="text" placeholder="Spécialité" required>
+          </div>
+          <div class="input-box">
+            <span class="details">Email</span>
+            <input name="email" type="text" placeholder="Email" required>
+          </div>
+          
+          <div class="input-box">
+            <span class="details">Numéro de téléphone</span>
+            <input name="phonenumber" type="text" placeholder="Numéro de téléphone" required>
+          </div>
+          <div class="input-box">
+            <span class="details">Mot de pass</span>
+            <input name="password" type="password" placeholder="Mot de pass" required>
+          </div>
+          <div class="input-box">
+            <span class="details">Confirmer le mot de pass</span>
+            <input name="password2" type="password" placeholder="Confirmer le mot de pass" required>
+          </div>
+        </div>
+        <div class="button">
+          <input type="submit" value="S'inscrire">
+        </div>
+      </form>
+    </div>
+  </div>
+  <script src="{% static 'js/script.js' %}"></script>
+{% endblock %}
+
